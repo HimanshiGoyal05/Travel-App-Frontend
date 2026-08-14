@@ -1,0 +1,26 @@
+.host-details{
+    /* width: 50%; */
+    border-bottom: 1px solid var(--accent-color);
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+}
+
+.gutter-bottom-small{
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+}
+
+.span{
+    color: var(--text-color-primary);
+}
+
+.apps{
+    font-size: 1rem;
+}
+
+
+
+

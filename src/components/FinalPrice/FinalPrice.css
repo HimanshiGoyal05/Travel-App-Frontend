@@ -1,0 +1,49 @@
+.price-details-container{
+    align-self: flex-start;
+    margin: 2rem 2rem 2rem auto;
+    background-color: var(--background-color);
+    padding: 1.5rem;
+    width: 27rem;
+}
+
+.guests{
+    border: 1px solid var(--container-border-color);
+    padding: 2px 0;
+    text-align: left;
+}
+
+.gutter-sm{
+    padding: 8px 1rem;
+}
+
+.button{
+    width: 100%;
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 1rem;
+    transition: opacity 0.2s ease;
+}
+
+.button:hover{
+    opacity: 0.6;
+}
+
+.price-distribution{
+    padding-top: 1rem;
+}
+
+.final-price{
+    padding: 10px;
+}
+
+.final-price:last-child{
+    border-top: 1px solid var(--container-border-color);
+}
+
+.guest-count-input{
+    border: none;
+}
+
+.guest-count-input:focus{
+    outline: none;
+}

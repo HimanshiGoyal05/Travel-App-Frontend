@@ -1,0 +1,30 @@
+.categories{
+    padding: 6rem 2rem 1rem 2rem;
+    color: var(--text-color-primary);
+    z-index: 1;
+    position: fixed;
+    width: 100vw;
+    background-color: var(--background-color);
+}
+
+.btn-category{
+    padding: 0;
+    top: 6rem;
+    border: 1px solid var(--accent-color);
+    border-radius: 50%;
+    color: var(--text-color-primary);
+    width: 24px;
+    height: 24px;
+}
+
+.btn-left{
+    left: 8rem;
+}
+
+.btn-right{
+    right: 8rem;
+}
+
+.border-bottom{
+    border-bottom: 1px solid var(--text-color-primary);
+}
