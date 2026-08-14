@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import InfiniteScroll from "react-infinite-scroll-component";
 
-import { Navbar, HotelCard, Categories } from "../../components";
-import { useCategory } from "../../context";
+import { Navbar, HotelCard, Categories, SearchStayWithDate } from "../../components";
+import { useCategory, useDate } from "../../context";
 
 import "./Home.css";
 
@@ -12,6 +12,7 @@ export const Home = () => {
     const [testData, setTestData]= useState([])
     const [currentIndex, setCurrentIndex] = useState(16) 
     const {hotelCategory} = useCategory()
+    const {isSearchModalOpen} = useDate()
 
     const [hotels, setHotels]= useState([])
   useEffect(() => {
@@ -47,7 +48,7 @@ export const Home = () => {
   }
 
   return (
-    <>
+    <div className="relative">
       <Navbar />
       <Categories />
          {
@@ -67,6 +68,9 @@ export const Home = () => {
             </InfiniteScroll>
             :(<></>)             
          }
-    </>
+         {
+          isSearchModalOpen && <SearchStayWithDate />
+         }
+    </div>
   );
 };
