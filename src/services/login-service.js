@@ -9,11 +9,8 @@ export const loginHandler = async (number, password) => {
         password: password,
       }
     );
-    console.log({accessToken, username});
     return {accessToken, username}
   } catch (err) {
-    console.log("Status:", err.response?.status);
-    console.log("Data:", err.response?.data);
-    console.log("Message:", err.response?.data?.message);
+    console.log(err)
 }
 };

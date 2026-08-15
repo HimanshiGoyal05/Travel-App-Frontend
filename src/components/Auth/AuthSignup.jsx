@@ -77,7 +77,7 @@ export const AuthSignup = () => {
     }
   };
 
-    const handleFormSubmit = (event) => {
+    const handleFormSubmit = async (event) => {
     event.preventDefault();
     if (
       isNumberValid &&
@@ -86,7 +86,7 @@ export const AuthSignup = () => {
       isPasswordValid &&
       isConfirmPasswordValid
     ) {
-      signupHandler(username, number, email, password);
+      await signupHandler(username, number, email, password);
     }
     authDispatch({
         type: "CLEAR_USER_DATA",
