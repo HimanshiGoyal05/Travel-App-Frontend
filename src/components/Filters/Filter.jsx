@@ -7,7 +7,6 @@ import {
   FreeCancel,
 } from "./index";
 import { useFilter } from "../../context";
-import { type } from "@testing-library/user-event/dist/type";
 
 export const Filter = () => {
   const { filterDispatch } = useFilter();

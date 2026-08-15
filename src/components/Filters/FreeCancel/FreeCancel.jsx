@@ -1,6 +1,5 @@
 import "./FreeCancel.css"
 import { useFilter } from "../../../context"
-import { type } from "@testing-library/user-event/dist/type"
 
 export const FreeCancel=()=>{
     const {filterDispatch, isCancellable}= useFilter()
