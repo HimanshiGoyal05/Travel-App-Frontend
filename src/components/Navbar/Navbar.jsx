@@ -1,14 +1,21 @@
 import "./Navbar.css";
-import { useDate } from "../../context";
+import { useDate, useAuth } from "../../context";
 
 export const Navbar = () => {
   const { destination, checkInDate, checkOutDate, guests, dateDispatch } = useDate();
+  const {authDispatch} =useAuth()
 
   const handleSearchClick = () => {
     dateDispatch({
       type: "OPEN_SEARCH_MODAL",
     });
   };
+
+  const handleAuthClick=()=>{
+    authDispatch({
+      type: "OPEN_AUTH_MODAL",
+    })
+  }
 
   return (
     <>
@@ -32,7 +39,7 @@ export const Navbar = () => {
           <span className="search material-icons-outlined">search</span>
         </div>
         <nav className="flex gap-8 items-center">
-          <div className="nav flex items-center cursor-pointer">
+          <div className="nav flex items-center cursor-pointer" onClick={handleAuthClick}>
             <span className="material-icons-outlined profile-option menu">
               {" "}
               menu{" "}

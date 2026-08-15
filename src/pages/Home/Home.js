@@ -7,9 +7,10 @@ import {
   HotelCard,
   Categories,
   SearchStayWithDate,
-  Filter
+  Filter,
+  AuthModal
 } from "../../components";
-import { useCategory, useDate, useFilter } from "../../context";
+import { useCategory, useDate, useFilter, useAuth } from "../../context";
 import {getHotelsByPrice, getHotelsByRoomsAndBeds, getHotelsByPropertyType, getHotelsByRating, getHotelsByCancellation} from "../../utils"
 
 import "./Home.css";
@@ -21,8 +22,10 @@ export const Home = () => {
   const { hotelCategory } = useCategory();
   const { isSearchModalOpen } = useDate();
   const { isFilterModalOpen, priceRange, noOfBedrooms, noOfBeds, noOfBathrooms, propertyType, traveloRating, isCancellable } = useFilter();
+  const {isAuthModalOpen}= useAuth()
 
   const [hotels, setHotels] = useState([]);
+
   useEffect(() => {
     (async () => {
       try {
@@ -89,6 +92,7 @@ export const Home = () => {
       )}
       {isSearchModalOpen && <SearchStayWithDate />}
       {isFilterModalOpen && <Filter />}
+      {isAuthModalOpen && <AuthModal />}
     </div>
   );
 };
