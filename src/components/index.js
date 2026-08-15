@@ -6,3 +6,4 @@ export { HotelImages } from "./HotelImages/HotelImages";
 export { FinalPrice } from "./FinalPrice/FinalPrice";
 export { DateSelector } from "./DateSelector/DateSelector";
 export { SearchStayWithDate } from "./SearchStayWithDate/SearchStayWithDate";
+export { Filter } from "./Filters/Filter";

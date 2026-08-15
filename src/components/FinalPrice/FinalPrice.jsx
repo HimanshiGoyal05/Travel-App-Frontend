@@ -1,7 +1,6 @@
 import "./FinalPrice.css";
 import { useDate } from "../../context";
 import { DateSelector } from "../DateSelector/DateSelector";
-import { type } from "@testing-library/user-event/dist/type";
 
 export const FinalPrice = ({ singleHotel }) => {
   const {guests, dateDispatch } = useDate();
