@@ -34,10 +34,10 @@ export const AuthLogin = () => {
     }
   };
 
-  const handleFormSubmit = (event) => {
+  const handleFormSubmit = async (event) => {
     event.preventDefault();
     if (isNumberValid && isPasswordValid) {
-      const {accessToken, username} = loginHandler(number, password);
+      const {accessToken, username} = await loginHandler(number, password);
       authDispatch({
         type:"SET_ACCESS_TOKEN",
         payload: accessToken
