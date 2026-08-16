@@ -4,7 +4,6 @@ import { authReducer } from "../reducer";
 const initialValue={
     isAuthModalOpen: false,
     isDropDownModalOpen: false,
-    username: "",
     number: "",
     email: "",
     password: "",
