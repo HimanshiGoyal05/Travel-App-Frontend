@@ -3,7 +3,7 @@ import { useDate, useAuth } from "../../context";
 
 export const Navbar = () => {
   const { destination, checkInDate, checkOutDate, guests, dateDispatch } = useDate();
-  const {authDispatch} =useAuth()
+  const {authDispatch, accessToken} =useAuth()
 
   const handleSearchClick = () => {
     dateDispatch({
@@ -11,11 +11,18 @@ export const Navbar = () => {
     });
   };
 
-  const handleAuthClick=()=>{
-    authDispatch({
-      type: "OPEN_AUTH_MODAL",
-    })
-  }
+  const handleAuthClick = () => {
+    if (accessToken) {
+      authDispatch({
+        type: "SHOW_DROP_DOWN_OPTIONS"
+      })
+    } else {
+      authDispatch({
+        type: "OPEN_AUTH_MODAL",
+      });
+    }
+
+  };
 
   return (
     <>

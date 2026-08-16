@@ -1,6 +1,6 @@
 import "./SearchResults.css";
-import { HotelCard, Navbar } from "../../components";
-import { useDate } from "../../context";
+import { HotelCard, Navbar, Alert } from "../../components";
+import { useDate, useAlert } from "../../context";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
@@ -8,6 +8,7 @@ export const SearchResults = () => {
   const { destination } = useDate();
 
   const [hotels, setHotels] = useState([]);
+  const { alert } = useAlert();
 
   useEffect(() => {
     (async () => {
@@ -41,6 +42,7 @@ export const SearchResults = () => {
           <h3>No Results Found</h3>
         )}
       </section>
+      {alert.open && <Alert />}
     </>
   );
 };

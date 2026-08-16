@@ -8,10 +8,24 @@ import {
   Categories,
   SearchStayWithDate,
   Filter,
-  AuthModal
+  AuthModal,
+  ProfileDropDown,
+  Alert,
 } from "../../components";
-import { useCategory, useDate, useFilter, useAuth } from "../../context";
-import {getHotelsByPrice, getHotelsByRoomsAndBeds, getHotelsByPropertyType, getHotelsByRating, getHotelsByCancellation} from "../../utils"
+import {
+  useCategory,
+  useDate,
+  useFilter,
+  useAuth,
+  useAlert,
+} from "../../context";
+import {
+  getHotelsByPrice,
+  getHotelsByRoomsAndBeds,
+  getHotelsByPropertyType,
+  getHotelsByRating,
+  getHotelsByCancellation,
+} from "../../utils";
 
 import "./Home.css";
 
@@ -21,8 +35,18 @@ export const Home = () => {
   const [currentIndex, setCurrentIndex] = useState(16);
   const { hotelCategory } = useCategory();
   const { isSearchModalOpen } = useDate();
-  const { isFilterModalOpen, priceRange, noOfBedrooms, noOfBeds, noOfBathrooms, propertyType, traveloRating, isCancellable } = useFilter();
-  const {isAuthModalOpen}= useAuth()
+  const {
+    isFilterModalOpen,
+    priceRange,
+    noOfBedrooms,
+    noOfBeds,
+    noOfBathrooms,
+    propertyType,
+    traveloRating,
+    isCancellable,
+  } = useFilter();
+  const { isAuthModalOpen, isDropDownModalOpen } = useAuth();
+  const { alert } = useAlert();
 
   const [hotels, setHotels] = useState([]);
 
@@ -37,8 +61,10 @@ export const Home = () => {
             : await axios.get(
                 `https://breeze-travel-planner-app.onrender.com/api/hotels?category=${hotelCategory}`,
               );
-        setTestData(data);
+        setTestData(data || []);
         setHotels(data ? data.slice(0, 16) : []);
+        setCurrentIndex(16);
+        setHasMore(data && data.length > 16);
       } catch (err) {
         console.log(err);
       }
@@ -46,27 +72,39 @@ export const Home = () => {
   }, [hotelCategory]);
 
   const fetchMoreData = () => {
-    if (filterHotelsByCancellation.length >= testData.length) {
+    if (hotels.length >= testData.length) {
       setHasMore(false);
       return;
     }
+
     setTimeout(() => {
-      if (filterHotelsByCancellation && filterHotelsByCancellation.length > 0) {
-        setHotels(
-          filterHotelsByCancellation.concat(testData.slice(currentIndex, currentIndex + 16)),
-        );
-        setCurrentIndex((prev) => prev + 16);
-      } else {
-        setHotels([]);
-      }
+      const nextHotels = testData.slice(currentIndex, currentIndex + 16);
+
+      setHotels((prevHotels) => [...prevHotels, ...nextHotels]);
+
+      setCurrentIndex((prev) => prev + 16);
     }, 1000);
   };
 
-  const filterDataByPrice= getHotelsByPrice(hotels, priceRange);
-  const filterHotelsByRoomsAndBeds = getHotelsByRoomsAndBeds(filterDataByPrice, noOfBedrooms, noOfBeds, noOfBathrooms);
-  const filterHotelsByPropertyType= getHotelsByPropertyType(filterHotelsByRoomsAndBeds, propertyType)
-  const filterHotelsByRating= getHotelsByRating(filterHotelsByPropertyType, traveloRating)
-  const filterHotelsByCancellation = getHotelsByCancellation(filterHotelsByRating, isCancellable)
+  const filterDataByPrice = getHotelsByPrice(hotels, priceRange);
+  const filterHotelsByRoomsAndBeds = getHotelsByRoomsAndBeds(
+    filterDataByPrice,
+    noOfBedrooms,
+    noOfBeds,
+    noOfBathrooms,
+  );
+  const filterHotelsByPropertyType = getHotelsByPropertyType(
+    filterHotelsByRoomsAndBeds,
+    propertyType,
+  );
+  const filterHotelsByRating = getHotelsByRating(
+    filterHotelsByPropertyType,
+    traveloRating,
+  );
+  const filterHotelsByCancellation = getHotelsByCancellation(
+    filterHotelsByRating,
+    isCancellable,
+  );
 
   return (
     <div className="relative">
@@ -74,7 +112,7 @@ export const Home = () => {
       <Categories />
       {filterHotelsByCancellation && filterHotelsByCancellation.length > 0 ? (
         <InfiniteScroll
-          dataLength={filterHotelsByCancellation.length}
+          dataLength={hotels.length}
           next={fetchMoreData}
           hasMore={hasMore}
           loader={<h3 className="alert-text">Loading...</h3>}
@@ -93,6 +131,8 @@ export const Home = () => {
       {isSearchModalOpen && <SearchStayWithDate />}
       {isFilterModalOpen && <Filter />}
       {isAuthModalOpen && <AuthModal />}
+      {isDropDownModalOpen && <ProfileDropDown />}
+      {alert.open && <Alert />}
     </div>
   );
 };

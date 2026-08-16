@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { useWishlist, useAuth } from "../../context";
+import { useWishlist, useAuth, useAlert } from "../../context";
 import { findHotelInWishlist } from "../../utils";
 
 import "./HotelCard.css";
@@ -8,6 +8,7 @@ export const HotelCard = ({ hotel }) => {
   const { _id, name, image, address, state, rating, price } = hotel;
   const { wishlistDispatch, wishlist } = useWishlist();
   const { accessToken, authDispatch } = useAuth();
+  const { setAlert } = useAlert();
 
   const navigate = useNavigate();
   const isHotelInWishlist = findHotelInWishlist(wishlist, _id);
@@ -23,17 +24,26 @@ export const HotelCard = ({ hotel }) => {
           type: "ADD_TO_WISHLIST",
           payload: hotel,
         });
-        navigate("/wishlist");
+        setAlert({
+          open: true,
+          message: `Hotel:: ${name} added to wishlist`,
+          type: "success",
+        });
       } else {
         wishlistDispatch({
           type: "REMOVE_FROM_WISHLIST",
           payload: _id,
         });
+        setAlert({
+          open: true,
+          message: `Hotel:: ${name} removed from wishlist`,
+          type: "success",
+        });
       }
-    }else{
-        authDispatch({
-            type: "OPEN_AUTH_MODAL",
-        })
+    } else {
+      authDispatch({
+        type: "SHOW_AUTH_MODAL",
+      });
     }
   };
 

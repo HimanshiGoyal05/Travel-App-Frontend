@@ -1,5 +1,5 @@
 import "./FinalPrice.css";
-import { useDate } from "../../context";
+import { useDate, useAlert, useAuth } from "../../context";
 import { DateSelector } from "../DateSelector/DateSelector";
 import { useNavigate } from "react-router-dom";
 
@@ -7,18 +7,45 @@ export const FinalPrice = ({ singleHotel }) => {
   const { guests, checkInDate, checkOutDate, dateDispatch } = useDate();
 
   const { _id, price, rating } = singleHotel;
+  const { accessToken, authDispatch } = useAuth();
+
+  const { setAlert } = useAlert();
 
   const navigate = useNavigate();
 
   const handleGuestChange = (event) => {
     dateDispatch({
       type: "GUESTS",
-      payload: event.target.value,
+      payload: Number(event.target.value),
     });
   };
 
   const handleReserveClick = () => {
-    navigate(`/confirm-booking/stay/${_id}`);
+    if (!checkInDate) {
+      setAlert({
+        open: true,
+        message: "Select a Check-in Date",
+        type: "info",
+      });
+    } else if (!checkOutDate) {
+      setAlert({
+        open: true,
+        message: "Select a Check-out Date",
+        type: "info",
+      });
+    } else if (guests < 1) {
+      setAlert({
+        open: true,
+        message: "Add number of guests",
+        type: "info",
+      });
+    } else if (accessToken) {
+      navigate(`/confirm-booking/stay/${_id}`);
+    } else {
+      authDispatch({
+        type: "OPEN_AUTH_MODAL",
+      });
+    }
   };
 
   return (
@@ -62,7 +89,7 @@ export const FinalPrice = ({ singleHotel }) => {
         <button
           className="button cursor-pointer justify-center rounded text-2xl"
           onClick={handleReserveClick}
-          disabled={checkInDate && checkOutDate && guests>0 ? false : true}
+          // disabled={checkInDate && checkOutDate && guests > 0 ? false : true}
         >
           Reserve
         </button>

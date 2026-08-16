@@ -1,13 +1,19 @@
 import { useNavigate } from "react-router-dom";
+import { useDate } from "../../context";
 
 import "./OrderSummary.css"
 
 
 export const OrderSummary = () => {
   const navigate = useNavigate();
+  const {dateDispatch}=useDate();
 
   const handleContinueBooking = () => {
     navigate("/");
+    dateDispatch({
+      type: "CLEAR_INPUTS",
+    })
+
   };
 
   return (

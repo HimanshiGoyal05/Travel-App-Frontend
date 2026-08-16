@@ -1,5 +1,5 @@
 import "./Auth.css";
-import { useAuth } from "../../context";
+import { useAuth, useAlert } from "../../context";
 import { validateNumber, validatePassword } from "../../utils";
 import { loginHandler } from "../../services";
 
@@ -7,6 +7,7 @@ let isNumberValid, isPasswordValid;
 
 export const AuthLogin = () => {
   const { authDispatch, number, password } = useAuth();
+  const { setAlert } = useAlert();
 
   const handleNumberChange = (event) => {
     isNumberValid = validateNumber(event.target.value);
@@ -37,7 +38,7 @@ export const AuthLogin = () => {
   const handleFormSubmit = async (event) => {
     event.preventDefault();
     if (isNumberValid && isPasswordValid) {
-      const { accessToken, username } = await loginHandler(number, password);
+      const { accessToken, username } = await loginHandler(number, password, setAlert);
       authDispatch({
         type: "SET_ACCESS_TOKEN",
         payload: accessToken,
@@ -56,7 +57,7 @@ export const AuthLogin = () => {
   };
 
   const handleTestCredentialsClick = async () => {
-    const { accessToken, username } = await loginHandler(9999999999, "TEST@test123");
+    const { accessToken, username } = await loginHandler(9999999999, "TEST@test123", setAlert);
     authDispatch({
       type: "SET_ACCESS_TOKEN",
       payload: accessToken,

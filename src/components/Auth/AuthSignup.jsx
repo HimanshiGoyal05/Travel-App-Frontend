@@ -1,16 +1,23 @@
 import "./Auth.css";
-import { useAuth } from "../../context";
-import {validateEmail, validateName, validateNumber, validatePassword} from "../../utils"
+import { useAuth, useAlert } from "../../context";
+import {
+  validateEmail,
+  validateName,
+  validateNumber,
+  validatePassword,
+} from "../../utils";
 import { signupHandler } from "../../services";
 
 let isNumberValid,
   isNameValid,
   isEmailValid,
   isPasswordValid,
-  isConfirmPasswordValid;  
+  isConfirmPasswordValid;
 
 export const AuthSignup = () => {
-  const { authDispatch, username, number, email, password, confirmPassword } = useAuth();
+  const { authDispatch, username, number, email, password, confirmPassword } =
+    useAuth();
+  const { setAlert } = useAlert();
 
   const handleNumberChange = (event) => {
     isNumberValid = validateNumber(event.target.value);
@@ -77,7 +84,7 @@ export const AuthSignup = () => {
     }
   };
 
-    const handleFormSubmit = async (event) => {
+  const handleFormSubmit = async (event) => {
     event.preventDefault();
     if (
       isNumberValid &&
@@ -86,15 +93,14 @@ export const AuthSignup = () => {
       isPasswordValid &&
       isConfirmPasswordValid
     ) {
-      await signupHandler(username, number, email, password);
+      await signupHandler(username, number, email, password, setAlert);
     }
     authDispatch({
-        type: "CLEAR_USER_DATA",
-    })
+      type: "CLEAR_USER_DATA",
+    });
     authDispatch({
-        type: "SET_TO_LOGIN",
-    })
-    
+      type: "SET_TO_LOGIN",
+    });
   };
 
   return (
@@ -105,7 +111,7 @@ export const AuthSignup = () => {
             Mobile Number <span className="asterisk">*</span>
           </label>
           <input
-          defaultValue={number}
+            defaultValue={number}
             className="auth-input"
             maxLength="10"
             type="number"
@@ -118,14 +124,20 @@ export const AuthSignup = () => {
           <label className="auth-label">
             Name <span className="asterisk">*</span>
           </label>
-          <input defaultValue={username} className="auth-input" placeholder="Enter Name" onChange={handleNameChange} required />
+          <input
+            defaultValue={username}
+            className="auth-input"
+            placeholder="Enter Name"
+            onChange={handleNameChange}
+            required
+          />
         </div>
         <div className="flex flex-col lb-in-container">
           <label className="auth-label">
             Email <span className="asterisk">*</span>
           </label>
           <input
-          defaultValue={email}
+            defaultValue={email}
             className="auth-input"
             placeholder="Enter email"
             type="email"
@@ -138,7 +150,7 @@ export const AuthSignup = () => {
             Password <span className="asterisk">*</span>
           </label>
           <input
-          defaultValue={password}
+            defaultValue={password}
             className="auth-input"
             placeholder="Enter Password"
             type="password"
@@ -151,7 +163,7 @@ export const AuthSignup = () => {
             Confirm Password <span className="asterisk">*</span>
           </label>
           <input
-          defaultValue={confirmPassword}
+            defaultValue={confirmPassword}
             className="auth-input"
             placeholder="Re-enter Password"
             type="password"
