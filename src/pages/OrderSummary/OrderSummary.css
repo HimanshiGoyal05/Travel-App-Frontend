@@ -1,0 +1,12 @@
+.btn-book{
+    width: 20rem;
+}
+
+.booking-container{
+    border: 2px solid var(--accent-color);
+    padding: 2rem;
+    width: 40rem;
+    height: 20rem;
+    border-radius: 16px;
+    transform: translate(70%, 0);
+}

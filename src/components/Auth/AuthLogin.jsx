@@ -37,22 +37,40 @@ export const AuthLogin = () => {
   const handleFormSubmit = async (event) => {
     event.preventDefault();
     if (isNumberValid && isPasswordValid) {
-      const {accessToken, username} = await loginHandler(number, password);
+      const { accessToken, username } = await loginHandler(number, password);
       authDispatch({
-        type:"SET_ACCESS_TOKEN",
-        payload: accessToken
-      })
+        type: "SET_ACCESS_TOKEN",
+        payload: accessToken,
+      });
       authDispatch({
-        type:"SET_USER_NAME",
-        payload: username
-      })
+        type: "SET_USER_NAME",
+        payload: username,
+      });
     }
     authDispatch({
-        type: "CLEAR_USER_DATA",
-    })
+      type: "CLEAR_USER_DATA",
+    });
     authDispatch({
-        type: "OPEN_AUTH_MODAL",
-    })
+      type: "OPEN_AUTH_MODAL",
+    });
+  };
+
+  const handleTestCredentialsClick = async () => {
+    const { accessToken, username } = await loginHandler(9999999999, "TEST@test123");
+    authDispatch({
+      type: "SET_ACCESS_TOKEN",
+      payload: accessToken,
+    });
+    authDispatch({
+      type: "SET_USER_NAME",
+      payload: username,
+    });
+    authDispatch({
+      type: "CLEAR_USER_DATA",
+    });
+    authDispatch({
+      type: "OPEN_AUTH_MODAL",
+    });
   };
 
   return (
@@ -90,7 +108,10 @@ export const AuthLogin = () => {
         </div>
       </form>
       <div className="cta">
-        <button className="btn-test cursor-pointer rounded">
+        <button
+          className="btn-test cursor-pointer rounded"
+          onClick={handleTestCredentialsClick}
+        >
           Login with Test Credentials
         </button>
       </div>
